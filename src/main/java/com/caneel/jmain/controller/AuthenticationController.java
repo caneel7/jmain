@@ -25,4 +25,10 @@ public class AuthenticationController {
        return authService.register(data);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<User>> login(@RequestBody UserRequestDto data)
+    {
+        return authService.login(data);
+    }
+
 }

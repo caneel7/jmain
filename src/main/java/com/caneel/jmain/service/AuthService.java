@@ -8,4 +8,6 @@ import org.springframework.http.ResponseEntity;
 public interface AuthService {
 
     ResponseEntity<ApiResponse<User>> register(UserRequestDto data);
+
+    ResponseEntity<ApiResponse<User>> login(UserRequestDto data);
 }

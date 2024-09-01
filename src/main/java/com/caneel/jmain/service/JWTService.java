@@ -12,7 +12,7 @@ import java.util.Map;
 @Component
 public class JWTService {
 
-    private static final long TOKEN_VALIDITY = 24 * 60 * 60;
+    private static final long TOKEN_VALIDITY = 24 * ( 60 * 60000);
 
     @Value("${TOKEN_SECRET}")
     private String TOKEN_SECRET;

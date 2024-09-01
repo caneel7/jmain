@@ -19,6 +19,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(unique = true)
+    private String username;
+
     @Column(unique = true,nullable = false)
     private String email;
 
@@ -27,6 +36,15 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(name = "is_active")
+    private boolean isActive;
+
+    //virtual field for token
+    @Transient
+    private String token;
+
+    private User(){};
 
     public User(String email, String password) {
         this.email = email;
@@ -40,7 +58,7 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
@@ -50,21 +68,21 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return isActive;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return isActive;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return isActive;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return isActive;
     }
 }
