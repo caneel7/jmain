@@ -6,5 +6,5 @@ Spring Boot 3 Backend Application with MySQL 8 Database and JWT Authentication
 
 Get Started 
 - Clone Repo
-- Put Environment Variables Specified in application.properties
+- Put Environment Variables as Specified in application.properties
 - ./gradlew bootrun
