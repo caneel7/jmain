@@ -35,18 +35,21 @@ public class AuthServiceImplementation implements AuthService {
     public ResponseEntity<ApiResponse<User>> register(UserRequestDto data)
     {
         try{
-            if(data.getEmail() == null) return ResponseEntity.badRequest().body(new ApiResponse<>(false,"Please Provide Email"));
-            if(data.getPassword() == null) return ResponseEntity.badRequest().body(new ApiResponse<>(false,"Please Provide Password"));
 
-
-            int duplicateUser = userRepository.countUserByEmail(data.getEmail());
-
-            if(duplicateUser > 0){
-                return new ResponseEntity<>(new ApiResponse<>(false,"User Already Exists"), HttpStatus.CONFLICT);
+            if (data.getEmail() == null || data.getPassword() == null) {
+                return ResponseEntity.badRequest().body(new ApiResponse<>(false, "Please Provide Email and Password"));
             }
 
-            User newUser = userRepository.save(new User(data.getEmail(),passwordEncoder.encode(data.getPassword())));
-            return ResponseEntity.ok().body(new ApiResponse<>(true,"Success",newUser));
+            Optional<User> existingUser = userRepository.findByEmail(data.getEmail());
+            if (existingUser.isPresent()) {
+                return new ResponseEntity<>(new ApiResponse<>(false, "User Already Exists"), HttpStatus.CONFLICT);
+            }
+
+            User newUser = new User(data.getEmail(), passwordEncoder.encode(data.getPassword()));
+            User savedUser = userRepository.save(newUser);
+
+            return ResponseEntity.ok().body(new ApiResponse<>(true, "Success", savedUser));
+
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(new ApiResponse<>(false,e.getMessage()));
         }
