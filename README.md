@@ -8,3 +8,6 @@ Get Started
 - Clone Repo
 - Put Environment Variables as Specified in application.properties
 - ./gradlew bootrun
+
+Google Oauth
+- To login with google make GET Request on url "oauth2/authorization/google"

@@ -34,11 +34,11 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = true)
     private String mobile;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
-    @Column(name = "is_active")
-    private boolean isActive;
+    @Column(name = "is_active", columnDefinition = "tinyint(1) default 1")
+    private boolean isActive = true;
 
     //virtual field for token
     @Transient
@@ -49,6 +49,12 @@ public class User implements UserDetails {
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public User(String email,String firstName,String lastName){
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     @Override
