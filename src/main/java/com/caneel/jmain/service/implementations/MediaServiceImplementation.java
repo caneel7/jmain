@@ -30,12 +30,11 @@ public class MediaServiceImplementation implements MediaService {
 
             File mediaToUpload = multipartToFile(media);
 
-            s3service.uploadFile(mediaToUpload);
+            String id = s3service.uploadFile(mediaToUpload);
 
             Media newMedia = new Media();
-            String id = UUID.randomUUID().toString();
             newMedia.setId(id);
-            newMedia.setDirectory("/media" + id);
+            newMedia.setDirectory("/media/" + id);
             newMedia.setValue(mediaToUpload.getName());
 
             mediaRepository.save(newMedia);
@@ -47,7 +46,7 @@ public class MediaServiceImplementation implements MediaService {
     }
 
     public File multipartToFile(MultipartFile file) throws IOException {
-        File tmpFile = new File(file.getOriginalFilename());
+        File tmpFile = File.createTempFile(file.getOriginalFilename(),file.getOriginalFilename());
         file.transferTo(tmpFile);
         return tmpFile;
     }
